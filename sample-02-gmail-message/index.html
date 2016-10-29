@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en" ng-app="myApp" ng-controller="myCtrl">
+
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <meta name="google-signin-client_id" content="473497502703-22gboltcv4u90hteok0uib3jd93bkddo.apps.googleusercontent.com">
+  <script src="https://apis.google.com/js/platform.js"></script>
+  <script src="https://apis.google.com/js/client.js?onload=checkAuth"></script>
+  <script src="https://code.angularjs.org/1.4.6/angular.js"></script>
+  <script>
+var myApp = angular.module('myApp', [  ]);
+
+myApp.controller('myCtrl', function ($scope) {
+  $scope.options = {
+            'onsuccess': function(response) {
+              console.log(response);
+              gapi.client.load('gmail', 'v1', listLabels);
+            }
+          }
+});
+
+  myApp.directive('googleSignInButton', function () {
+  return {
+          scope: {
+            buttonId: '@',
+            options: '&'
+          },
+          template: '<div></div>',
+          link: function(scope, element, attrs) {
+            var div = element.find('div')[0];
+            div.id = attrs.buttonId;
+            gapi.signin2.render(div.id, scope.options()); //render a google button, first argument is an id, second options
+          }
+        };
+});
+
+
+  function listLabels() {
+
+        var request = gapi.client.gmail.users.messages.list({
+          'userId': 'me'
+        });
+
+        request.execute(function(resp) {
+          var messages = resp.messages;
+          appendPre('Labels:');
+
+          if (messages && messages.length > 0) {
+            for (i = 0; i < messages.length; i++) {
+              var msg = messages[i];
+              showMsg(msg.id)
+  //              appendPre(msg.id)
+            }
+          } else {
+            appendPre('No Labels found.');
+          }
+        });
+      }
+
+
+
+      function showMsg(id) {
+        var request = gapi.client.gmail.users.messages.get({
+          'userId': 'me' , 
+          'id' : id 
+        });
+        request.execute(function(resp) {
+          var messages = resp.snippet;
+          appendPre(messages);
+        });
+      }
+
+
+  function appendPre(message) {
+        var pre = document.getElementById('output');
+        var textContent = document.createTextNode(message + '\n');
+        pre.appendChild(textContent);
+      }
+ 
+  </script>
+</head>
+
+<body>
+
+  <google-sign-in-button button-id="uniqueid" options="options"></google-sign-in-button>
+ 
+    <pre id="output"></pre>
+</body>
+
+</html>

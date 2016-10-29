@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en" ng-app="myApp" ng-controller="myCtrl">
+
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <meta name="google-signin-client_id" content="{YOUR_CLIENT_ID}">
+   <script src="https://apis.google.com/js/platform.js"></script>
+<script src="https://code.angularjs.org/1.4.6/angular.js"></script>
+  <script>
+var myApp = angular.module('myApp', [  ]);
+
+myApp.controller('myCtrl', function ($scope) {
+  $scope.options = {
+            'onsuccess': function(response) {
+              console.log(response);
+            }
+          }
+});
+
+  myApp.directive('googleSignInButton', function () {
+  return {
+          scope: {
+            buttonId: '@',
+            options: '&'
+          },
+          template: '<div></div>',
+          link: function(scope, element, attrs) {
+            var div = element.find('div')[0];
+            div.id = attrs.buttonId;
+            gapi.signin2.render(div.id, scope.options()); //render a google button, first argument is an id, second options
+          }
+        };
+});
+ 
+  </script>
+</head>
+
+<body>
+
+  <google-sign-in-button button-id="uniqueid" options="options"></google-sign-in-button>
+ 
+</body>
+
+</html>
