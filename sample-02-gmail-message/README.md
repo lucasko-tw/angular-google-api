@@ -9,9 +9,9 @@
 ###The Request of Gmail Message API
 
 ```JAVASCRIPT
-        var request = gapi.client.gmail.users.messages.list({
-          'userId': 'me'
-        });
+ var request = gapi.client.gmail.users.messages.list({
+ 'userId': 'me'
+ });
 ```
 
 
