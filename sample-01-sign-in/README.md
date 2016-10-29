@@ -1,4 +1,11 @@
-### Angular ng Module with Google API 
+### Angular with Google API 
+
+###Update Your Client ID
+```HTML
+ <meta name="google-signin-client_id" content="{YOUR_CLIENT_ID}">
+```
+
+###Auth Code
 
 ```HTML
 <script>

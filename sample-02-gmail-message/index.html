@@ -1,25 +1,23 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en" ng-app="myApp" ng-controller="myCtrl">
-
-
 <head>
   <meta charset="UTF-8">
   <title>Document</title>
-  <meta name="google-signin-client_id" content="473497502703-22gboltcv4u90hteok0uib3jd93bkddo.apps.googleusercontent.com">
+  <meta name="google-signin-client_id" content="{YOUR_CLIENT_ID}">
   <script src="https://apis.google.com/js/platform.js"></script>
   <script src="https://apis.google.com/js/client.js?onload=checkAuth"></script>
   <script src="https://code.angularjs.org/1.4.6/angular.js"></script>
   <script>
-var myApp = angular.module('myApp', [  ]);
 
-myApp.controller('myCtrl', function ($scope) {
+  var myApp = angular.module('myApp', [  ]);
+  myApp.controller('myCtrl', function ($scope) {
   $scope.options = {
             'onsuccess': function(response) {
               console.log(response);
               gapi.client.load('gmail', 'v1', listLabels);
             }
           }
-});
+  });
 
   myApp.directive('googleSignInButton', function () {
   return {
@@ -34,8 +32,7 @@ myApp.controller('myCtrl', function ($scope) {
             gapi.signin2.render(div.id, scope.options()); //render a google button, first argument is an id, second options
           }
         };
-});
-
+  });
 
   function listLabels() {
 
@@ -51,7 +48,6 @@ myApp.controller('myCtrl', function ($scope) {
             for (i = 0; i < messages.length; i++) {
               var msg = messages[i];
               showMsg(msg.id)
-  //              appendPre(msg.id)
             }
           } else {
             appendPre('No Labels found.');
